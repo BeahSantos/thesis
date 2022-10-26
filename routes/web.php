@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LatestUploadController;
+use App\Http\Controllers\MostViewedThesisController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeCOntroller::class, 'index'])->name('welcome.index');
+Route::get('/most-viewed-thesis', [MostViewedThesisController::class, 'index'])->name('most_viewed_thesis.index');
+Route::get('/latest-uploads', [LatestUploadController::class, 'index'])->name('latest_upload.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
