@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeCOntroller::class, 'index'])->name('welcome.index');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 Route::get('/most-viewed-thesis', [MostViewedThesisController::class, 'index'])->name('most_viewed_thesis.index');
 Route::get('/latest-uploads', [LatestUploadController::class, 'index'])->name('latest_upload.index');
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
