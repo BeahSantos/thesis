@@ -1,5 +1,5 @@
 @extends('admin.layouts.template')
-@section('title', 'Admin | Thesis')
+@section('title', 'Admin | Thesis Archives')
 @section('content')
 <style>
     .logout:hover {
@@ -17,9 +17,13 @@
 </style>
 <nav class="navbar navbar-expand-lg navbar-white bg-white sticky-top">
     <div class="container-fluid">
+        <a class="navbar-brand" href="{{route('admin.thesis_archives.index')}}">
+            <img src="/web-logo-earist.png" width="65" height="50" alt="Earist Thesis Archive Library">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto me-3 mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
@@ -43,7 +47,32 @@
 <div class="container mt-5" id="flash-message">
     @include('admin.layouts.flash-message')
 </div>
-<div class="container mt-5">
+
+<div class="container mt-3 mb-3 rounded">
+    <div class="d-flex justify-content-center align-middle">
+        <div class="col-md-8 mt-2 rounded bg-white shadow-sm py-3 px-3">
+            <form action="" id="filter-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">From Date</label>
+                        <input type="date" name="from_date" value="{{$request->from_date ?? ''}}" id="from_date" class="form-control align-middle shadow-none">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">To Date</label>
+                        <input type="date" name="to_date" value="{{$request->to_date ?? ''}}" id="to_date"class="form-control align-middle shadow-none">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary align-middle px-5 py-2">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
@@ -55,7 +84,7 @@
                     </form>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 text-end">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#create-thesis-form" class="btn shadow-none btn-success">Add New Thesis</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#create-thesis-form" class="btn shadow-none btn-success px-5">Add</a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -77,7 +106,7 @@
                         <tr class="text-center">
                             <td class="text-truncate">{{$row->title}}</td>
                             <td>{{$row->author}}</td>
-                            <td>{{$row->course}}</td>
+                            <td>{{$row->course->course_title}}</td>
                             <td>{{date('d F, Y', strtotime($row->publish_date))}}</td>
                             <td>{{$row->category->category_name}}</td>
                             <td>{{$row->abstract}}</td>
@@ -98,6 +127,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-end">
+                {{$data->links('pagination::bootstrap-4')}}
+            </div>
         </div>
     </div>
 </div>
@@ -105,10 +137,106 @@
 @include('admin.thesis.modals.edit')
 @include('admin.thesis.modals.show')
 @include('admin.thesis.modals.delete')
+@include('admin.thesis.modals.confirm-deletion-form')
 @endsection
 @section('customize-scripts')
 <script>
-    var $j = jQuery.noConflict();
+    $.validator.addMethod('dateTimeNotGreaterThan', function (value, element, param) {
+        var startDate = Date.parse(value);
+        var endDate = Date.parse($(param).val());
+
+        if (startDate < endDate) {
+            return false
+        } else {
+            return true
+        }
+    }, 'To Date should be greater than From Date');
+
+    $(document).ready(function() {
+        $('#filter-form').validate({
+            rules: {
+                from_date: {
+                    required: {
+                        depends: function (element) {
+                            if ($('#to_date').val() != '') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    },
+                },
+                to_date: {
+                    dateTimeNotGreaterThan: '#from_date',
+                    required: {
+                        depends: function (element) {
+                            if ($('#from_date').val() != '') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            },
+            errorElement: "span",
+            errorClass: "text-danger",
+            errorPlacement: function (label, element) {
+                label.insertAfter(element);
+            }
+        });
+
+        $('#create-thesis-form-validation').validate({
+            rules: {
+                thesis_title: "required",
+                authors: "required",
+                course: "required",
+                publish_date: "required",
+                abstract: "required",
+                category: "required",
+                thesis_file: "required",
+            },
+
+            messages: {
+                thesis_title: "This field is required",
+                authors: "This field is required",
+                course: "This field is required",
+                publish_date: "This field is required",
+                abstract: "This field is required",
+                category: "This field is required",
+                thesis_file: "This field is required",
+            },
+
+            errorElement: "span",
+            errorClass: "text-danger",
+            errorPlacement: function (label, element) {
+                label.insertAfter(element);
+            }
+        });
+
+        $('#edit-thesis-form-validation').validate({
+            rules: {
+                thesis_title: "required",
+                authors: "required",
+                publish_date: "required",
+                abstract: "required",
+            },
+
+            messages: {
+                thesis_title: "This field is required",
+                authors: "This field is required",
+                publish_date: "This field is required",
+                abstract: "This field is required",
+            },
+
+            errorElement: "span",
+            errorClass: "text-danger",
+            errorPlacement: function (label, element) {
+                label.insertAfter(element);
+            }
+        });
+    });
+
     $(function() {
         setTimeout(function() {
             $('#flash-message').hide();
@@ -125,7 +253,7 @@
         var views = $(btn).data().views;
         $('#show-title').val(data.title);
         $('#show-authors').val(data.author);
-        $('#show-course').val(data.course);
+        $('#show-course').val(data.course.course_title);
         $('#show-publish-date').val(data.publish_date);
         $('#show-category').val(data.category.category_name);
         $('#show-views').val(views);
@@ -138,12 +266,10 @@
         var route = $(btn).data().link;
         $('#edit-title').val(data.title);
         $('#edit-authors').val(data.author);
-        $('#edit-course').val(data.course);
         $('#edit-publish-date').val(data.publish_date);
-        $('#edit-category').val(data.category.category_name);
         $('#edit-views').val(views);
         $('#edit-abstract').val(data.abstract);
-        $('#edit-item-form').attr('action', route);
+        $('#edit-thesis-form-validation').attr('action', route);
     }
 </script>
 @endsection

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlphabeticalThesisController;
+use App\Http\Controllers\MostViewedController;
 use App\Http\Controllers\LatestUploadController;
-use App\Http\Controllers\MostViewedThesisController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
-Route::get('/most-viewed-thesis', [MostViewedThesisController::class, 'index'])->name('most_viewed_thesis.index');
+Route::get('/', [MostViewedController::class, 'index'])->name('welcome.index');
 Route::get('/latest-uploads', [LatestUploadController::class, 'index'])->name('latest_upload.index');
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/a-z', [AlphabeticalThesisController::class, 'index'])->name('alphabetical_thesis.index');
+Route::get('/{thesis}/show', [WelcomeController::class, 'showThesis'])->name('show_thesis');
+Route::post('/store', [WelcomeController::class, 'storeStudentInfo'])->name('store_student_info');
+Route::get('/download/{file}', [WelcomeController::class, 'download'])->name('download');

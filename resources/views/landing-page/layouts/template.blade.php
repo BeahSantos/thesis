@@ -9,9 +9,16 @@
     @include('landing-page.layouts.header')
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
+    <style>
+        body {
+            font-size: 14px;
+        }
+    </style>
     @yield('content')
     @include('landing-page.layouts.scripts')
+    @yield('customized-script')
+    @include('common.layouts.footer')
 </body>
 
 </html>

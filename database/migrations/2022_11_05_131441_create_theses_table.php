@@ -17,11 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
-            $table->string('course');
+            $table->bigInteger('course_id');
             $table->date('publish_date');
             $table->string('abstract');
             $table->bigInteger('category_id');
-            $table->bigInteger('views')->nullable();
+            $table->bigInteger('views')->default(0);
+            $table->string('thesis_file');
             $table->timestamps();
         });
     }

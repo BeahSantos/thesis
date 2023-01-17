@@ -8,22 +8,28 @@
                 <div class="text-center mb-3">
                     <h5 style="font-family: Montserrat, sans serif;">Thesis Archives</h5>
                 </div>
-                <form action="{{route('admin.thesis_archives.store')}}" method="POST" class="ms-5">
+                <form action="{{route('admin.thesis_archives.store')}}" method="POST" class="ms-5" enctype="multipart/form-data" id="create-thesis-form-validation">
                     @csrf
-                    <input type="text" name="thesis_title" style="width: 308px !important;" class="form-control shadow-none mb-3" placeholder="Thesis Title">
-                    <input type="text" name="authors" style="width: 308px !important;" class="form-control shadow-none mb-3" placeholder="Author/s">
-                    <input type="text" name="course" style="width: 308px !important;" class="form-control shadow-none mb-3" placeholder="Course">
-                    <input type="date" name="publish_date" style="width: 308px !important;" class="form-control shadow-none mb-3" placeholder="Publish Date">
-                    <select class="form-select shadow-none mb-3" name="category" style="width: 308px !important;" aria-label="Default select example">
+                    <input type="text" name="thesis_title" style="width: 308px !important;" class="form-control shadow-none" placeholder="Thesis Title">
+                    <input type="text" name="authors" style="width: 308px !important;" class="form-control shadow-none mt-3" placeholder="Author/s">
+                    <select class="form-select shadow-none mt-3" name="course" style="width: 308px !important;" aria-label="Default select example">
+                        <option disabled selected>Courses</option>
+                        @foreach($courses as $course)
+                        <option value="{{$course->id}}">{{$course->course_title}}</option>
+                        @endforeach
+                    </select>
+                    <input type="date" name="publish_date" style="width: 308px !important;" class="form-control shadow-none mt-3" placeholder="Publish Date">
+                    <select class="form-select shadow-none mt-3" name="category" style="width: 308px !important;" aria-label="Default select example">
                         <option disabled selected>Categories</option>
                         @foreach($categories as $category)
                         <option value="{{$category->id}}">{{$category->category_name}}</option>
                         @endforeach
                     </select>
-                    <div class="form-floating">
+                    <div class="form-floating mt-3">
                         <textarea class="form-control shadow-none" name="abstract" style="width: 308px !important;" placeholder="Abstract" id="floatingTextarea"></textarea>
                         <label for="floatingTextarea">Abstract</label>
                     </div>
+                    <input type="file" name="thesis_file" class="form-control shadow-none mt-3" style="width: 308px !important;">
 
                     <div class="text-center mt-4 mb-3 me-5">
                         <button type="submit" style="border-radius: 20px; padding-right: 70px; padding-left: 70px;" class="btn btn-success">Create</button>

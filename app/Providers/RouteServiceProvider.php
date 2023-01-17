@@ -53,7 +53,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->prefix('thesis-archives')
             ->namespace($this->namespace . '\WelcomeController')
             ->group(base_path('routes/web.php'));
     }
@@ -82,7 +81,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         Route::middleware('web')
-            ->prefix('admin/thesis-archives')
+            ->prefix('admin')
             ->name('admin.thesis_archives.')
             ->namespace($this->namespace . '\Admin')
             ->group(base_path('routes/admin.php'));

@@ -12,7 +12,7 @@ class Thesis extends Model
     protected $fillable = [
         'title',
         'author',
-        'course',
+        'course_id',
         'publish_date',
         'description',
         'category_id'
@@ -21,5 +21,10 @@ class Thesis extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function course() 
+    {
+        return $this->belongsTo(Course::class);
     }
 }

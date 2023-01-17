@@ -9,10 +9,16 @@
     @include('admin.layouts.header')
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
+    <style>
+        body {
+            font-size: 16px;
+        }
+    </style>
     @yield('content')
     @include('admin.layouts.scripts')
     @yield('customize-scripts')
+    @include('common.layouts.footer')
 </body>
 
 </html>

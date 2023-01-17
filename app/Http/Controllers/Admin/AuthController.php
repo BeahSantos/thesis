@@ -16,11 +16,16 @@ class AuthController extends Controller
         $this->admin = $admin;
     }
 
+    public function index()
+    {
+        return view('admin.auth.index');
+    }
+
     public function authenticate(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:8|max:250'
+            'email' => 'email',
+            'password' => 'required|string|min:1|max:250'
         ]);
 
         if (Auth::guard('admin')->attempt($validated)) {
