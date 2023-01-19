@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('author');
             $table->bigInteger('course_id');
             $table->date('publish_date');
-            $table->string('abstract');
+            $table->string('serial_number');
             $table->bigInteger('category_id');
             $table->bigInteger('views')->default(0);
             $table->string('thesis_file');
+            $table->bigInteger('reason_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

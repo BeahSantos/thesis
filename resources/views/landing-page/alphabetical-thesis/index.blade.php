@@ -112,9 +112,9 @@
                                     <label for="">Course</label>
                                     <select class="form-select shadow-none align-middle" name="category" aria-label="Default select example">
                                         <option disabled selected>Select</option>
-                                        {{-- @foreach($categories as $key => $category)
-                                        <option value="{{$category->id}}" {{$request->category == $category->id ? 'selected' : ''}}>{{$category->category_name}}</option>
-                                        @endforeach --}}
+                                        @foreach($courses as $key => $course)
+                                        <option value="{{$course->id}}" {{$request->category == $course->id ? 'selected' : ''}}>{{$course->course_title}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -142,7 +142,7 @@
                             @csrf
                             <div class="input-group mb-3">
                                 <input type="hidden" name="is_accepted" value="{{$request->is_accepted ?? 0}}">
-                                <input type="text" class="form-control shadow-none" name="search" placeholder="Search by Thesis Title" aria-label="Recipient's username" aria-describedby="basic-addon2" value="{{$request->search ?? ''}}">
+                                <input type="text" class="form-control shadow-none" name="search" placeholder="Search by Thesis Title or Serial Number" aria-label="Recipient's username" aria-describedby="basic-addon2" value="{{$request->search ?? ''}}">
                                 <span class="input-group-text" id="basic-addon2"><button type="submit" class="btn" style="outline:none !important; border: 0;">Search</button></span>
                             </div>
                         </form>
@@ -151,15 +151,20 @@
                 <div class="row">
                     @foreach($data as $item)
                     <div class="col-xs-12 col-sm-12 col-md-4 mb-4 mt-5">
-                        <div class="card text-black shadow-sm" style="width: 16rem; height: 14rem;">
+                        <div class="card text-black shadow-sm" style="width: 16rem; height: 16rem;">
+                            <div class="row m-2 text-end">
+                                <div class="col-md-12">
+                                    {{"Serial Number: " . $item->serial_number}}
+                                </div>
+                            </div>
                             <div class="card-body d-inline-block">
                                 <h6 class="card-title fw-bold lh-1" style="font-size: 18px;">
                                     {{$item->title}}
                                 </h6>
                             </div>
                             <div class="card-footer bg-white border-0" style="height: 4rem;">
-                                <div class="d-flex justify-content-between mb-5">
-                                    <button class="btn btn-light me-auto"><a href="{{route('download', ['file' => $item->id])}}" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button>
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{-- <button class="btn btn-light me-auto"><a href="{{route('download', ['file' => $item->id])}}" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button> --}}
                                     <button class="btn btn-light"><a href="{{route('show_thesis', ['thesis' => $item->id])}}" class="text-dark">{{isset($item->views) ? $item->views : 0}} <i class="fa fa-eye" aria-hidden="true"></i></a></button>
                                 </div>
                             </div>

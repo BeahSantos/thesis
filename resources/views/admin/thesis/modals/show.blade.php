@@ -23,8 +23,8 @@
                 <label class="fw-bold">Category</label>
                 <input type="text" name="publish_date" style="width: 308px !important;" id="show-category" readonly class="form-control form-control-plaintext shadow-none mb-3">
 
-                <label class="fw-bold">Abstract</label>
-                <input readonly class="form-control form-control-plaintext shadow-none mb-3" name="abstract" style="width: 308px !important;" id="show-abstract"></input>
+                <label class="fw-bold">Serial Number</label>
+                <input readonly class="form-control form-control-plaintext shadow-none mb-3" name="abstract" style="width: 308px !important;" id="show-serial-number">
 
                 <label class="fw-bold">Views</label>
                 <input type="text" name="publish_date" style="width: 308px !important;" id="show-views" readonly class="form-control form-control-plaintext shadow-none mb-3">

@@ -19,14 +19,17 @@
                         <option value="{{$course->id}}">{{$course->course_title}}</option>
                         @endforeach
                     </select>
-                    <input type="date" id="edit-publish-date" name="publish_date" style="width: 308px !important;" class="form-control shadow-none mt-3">
+                    <input type="date" id="edit-publish-date" max="{{$formatted}}" name="publish_date" style="width: 308px !important;" class="form-control shadow-none mt-3">
                     <select class="form-select shadow-none mt-3" name="category" style="width: 308px !important;" aria-label="Default select example">
                         <option disabled selected>Categories</option>
                         @foreach($categories as $category)
                         <option value="{{$category->id}}">{{$category->category_name}}</option>
                         @endforeach
                     </select>
-                    <textarea class="form-control shadow-none mt-3" id="edit-abstract" name="abstract" style="width: 308px !important;"></textarea>
+                    <div class="form-floating mt-3">
+                        <input class="form-control shadow-none" id="edit-serial-number" name="serial_number" style="width: 308px !important;" id="floatingTextarea" value="" readonly>
+                        <label for="floatingTextarea">Serial Number</label>
+                    </div>
                     <input type="file" name="thesis_file" class="form-control shadow-none mt-3" style="width: 308px !important;">
 
                     <div class="text-center mt-4 mb-3 me-5">

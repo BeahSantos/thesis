@@ -48,7 +48,7 @@ class ThesisController extends Controller
             'authors' => 'required|min:1|max:250',
             'course' => 'required',
             'publish_date' => 'required',
-            'abstract' => 'required|min:1|max:250',
+            'serial_number' => 'required|min:1|max:250',
             'category' => 'required',
             'thesis_file' => 'required'
         ]);
@@ -64,7 +64,7 @@ class ThesisController extends Controller
         $data->author = $validated['authors'];
         $data->course_id = $validated['course'];
         $data->publish_date = $validated['publish_date'];
-        $data->abstract = $validated['abstract'];
+        $data->serial_number = $validated['serial_number'];
         $data->category_id = $validated['category'];
         $data->thesis_file = $filename;
         $data->save();
@@ -83,7 +83,7 @@ class ThesisController extends Controller
             'authors' => 'required|min:1|max:250',
             'course' => 'nullable',
             'publish_date' => 'required',
-            'abstract' => 'required|min:1|max:250',
+            'serial_number' => 'required',
             'category' => 'nullable',
             'thesis_file' => 'nullable'
         ]);
@@ -99,7 +99,7 @@ class ThesisController extends Controller
         $data->author = $validated['authors'];
         $data->course_id = $validated['course'] ?? $data->course_id;
         $data->publish_date = $validated['publish_date'];
-        $data->abstract = $validated['abstract'];
+        $data->serial_number = $validated['serial_number'];
         $data->category_id = isset($validated['category']) ? $validated['category'] : $data->category_id;
         $data->thesis_file = isset($validated['thesis_file']) ? $filename : $data->thesis_file;
         $data->save();
@@ -112,7 +112,11 @@ class ThesisController extends Controller
         if ($request->reason == null) {
             return redirect()->route('admin.thesis_archives.index')->with('error', 'Please select a reason to delete');
         }
-
+        
+        $data = $thesis;
+        $data->reason_id = $request->reason;
+        $data->save();
+        
         $thesis->delete();
 
         return redirect()->route('admin.thesis_archives.index')->with('success', 'Successfully Deleted!');
@@ -123,7 +127,8 @@ class ThesisController extends Controller
         $data = $this->thesis->with('category:id,category_name', 'course:id,course_title');
 
         if (isset($request->search)) {
-            $data = $data->where('title', 'LIKE', "%{$request->search}%");
+            $data = $data->where('title', 'LIKE', "%{$request->search}%")
+                ->orWhere('serial_number', 'LIKE', "%{$request->search}%");
         }
 
         if ($request->from_date && $request->to_date) {

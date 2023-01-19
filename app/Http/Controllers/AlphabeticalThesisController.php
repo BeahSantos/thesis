@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Thesis;
 use Illuminate\Http\Request;
 
 class AlphabeticalThesisController extends Controller
 {
+    protected $course;
     protected $thesis;
 
-    public function __construct(Thesis $thesis)
+    public function __construct(Thesis $thesis, Course $course)
     {
         $this->thesis = $thesis;
+        $this->course = $course;
     }
 
     public function index(Request $request)
@@ -27,6 +30,7 @@ class AlphabeticalThesisController extends Controller
                 ->orderBy('title', 'asc')
                 ->paginate(9),
             'request' => $request,
+            'courses' => $this->course->select('id','course_title')->get(),
         ]);
     }
 
@@ -36,11 +40,12 @@ class AlphabeticalThesisController extends Controller
             ->select('*');
 
         if ($request->search) {
-            $data = $data->where('title', 'LIKE', "%{$request->search}%");
+            $data = $data->where('title', 'LIKE', "%{$request->search}%")
+                ->orWhere('serial_number', 'LIKE', "%{$request->search}%");
         }
 
         if ($request->category) {
-            $data = $data->where('category_id', $request->category);
+            $data = $data->where('course_id', $request->category);
         }
 
         if ($request->from_date && $request->to_date) {

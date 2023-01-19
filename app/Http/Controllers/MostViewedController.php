@@ -18,7 +18,7 @@ class MostViewedController extends Controller
     {
         return view('landing-page.most-viewed.index')->with([
             'data' => $this->thesis
-                ->select('id','title','views')
+                ->select('id','title','views','serial_number')
                 ->orderBy('views', 'desc')
                 ->limit('9')
                 ->get(),

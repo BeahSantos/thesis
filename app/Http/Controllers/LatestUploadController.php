@@ -24,7 +24,7 @@ class LatestUploadController extends Controller
 
         return view('landing-page.latest-upload.index')->with([
             'data' => $this->thesis
-                ->select('id','title','views')
+                ->select('id','title','views','serial_number')
                 ->latest()
                 ->limit('9')
                 ->get(),

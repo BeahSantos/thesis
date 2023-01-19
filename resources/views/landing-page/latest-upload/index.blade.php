@@ -89,15 +89,20 @@
                 <div class="row">
                     @foreach($data as $item)
                     <div class="col-xs-12 col-sm-12 col-md-4 mb-4 mt-5">
-                        <div class="card text-black shadow-sm" style="width: 16rem; height: 14rem;">
+                        <div class="card text-black shadow-sm" style="width: 16rem; height: 16rem;">
+                            <div class="row m-2 text-end">
+                                <div class="col-md-12">
+                                    {{"Serial Number: " . $item->serial_number}}
+                                </div>
+                            </div>
                             <div class="card-body d-inline-block">
                                 <h6 class="card-title fw-bold lh-1" style="font-size: 18px;">
                                     {{$item->title}}
                                 </h6>
                             </div>
                             <div class="card-footer bg-white border-0" style="height: 4rem;">
-                                <div class="d-flex justify-content-between mb-5">
-                                    <button class="btn btn-light me-auto"><a href="{{route('download', ['file' => $item->id])}}" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button>
+                                <div class="d-flex justify-content-end mb-5">
+                                    {{-- <button class="btn btn-light me-auto"><a href="{{route('download', ['file' => $item->id])}}" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button> --}}
                                     <button class="btn btn-light"><a href="{{route('show_thesis', ['thesis' => $item->id])}}" class="text-dark">{{isset($item->views) ? $item->views : 0}} <i class="fa fa-eye" aria-hidden="true"></i></a></button>
                                 </div>
                             </div>

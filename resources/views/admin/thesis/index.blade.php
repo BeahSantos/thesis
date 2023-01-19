@@ -34,7 +34,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li class="">
                             <a class="dropdown-item logout" href="{{route('admin.thesis_archives.logout')}}">
-                                <i class="fa fa-power-off me-2" aria-hidden="true"></i>
+                                <i class="fa fa-sign-out me-2" aria-hidden="true"></i>
                                 <h6 class="d-inline-block lg" style="font-family: Montserrat, sans serif;">Logout</h6>
                             </a>
                         </li>
@@ -48,6 +48,10 @@
     @include('admin.layouts.flash-message')
 </div>
 
+<?php
+    $date = \Carbon\Carbon::now();
+    $formatted = date('Y-m-d', strtotime($date));
+?>
 <div class="container mt-3 mb-3 rounded">
     <div class="d-flex justify-content-center align-middle">
         <div class="col-md-8 mt-2 rounded bg-white shadow-sm py-3 px-3">
@@ -96,7 +100,7 @@
                             <th>Course</th>
                             <th>Publish Date</th>
                             <th>Category</th>
-                            <th>Abstract</th>
+                            <th>Serial Number</th>
                             <th>Views</th>
                             <th>Actions</th>
                         </tr>
@@ -109,7 +113,7 @@
                             <td>{{$row->course->course_title}}</td>
                             <td>{{date('d F, Y', strtotime($row->publish_date))}}</td>
                             <td>{{$row->category->category_name}}</td>
-                            <td>{{$row->abstract}}</td>
+                            <td>{{$row->serial_number}}</td>
                             <td>{{isset($row->views) ? $row->views : 0}}</td>
                             <td>
                                 <div class="">
@@ -257,7 +261,7 @@
         $('#show-publish-date').val(data.publish_date);
         $('#show-category').val(data.category.category_name);
         $('#show-views').val(views);
-        $('#show-abstract').val(data.abstract);
+        $('#show-serial-number').val(data.serial_number);
     }
 
     function editItem(btn) {
@@ -268,7 +272,7 @@
         $('#edit-authors').val(data.author);
         $('#edit-publish-date').val(data.publish_date);
         $('#edit-views').val(views);
-        $('#edit-abstract').val(data.abstract);
+        $('#edit-serial-number').val(data.serial_number);
         $('#edit-thesis-form-validation').attr('action', route);
     }
 </script>

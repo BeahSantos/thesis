@@ -1,4 +1,7 @@
 <div class="modal fade" id="create-thesis-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <?php
+        $serialNumber = mt_rand(1000000000, 9999999999);
+    ?>
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="m-3 text-end">
@@ -18,7 +21,7 @@
                         <option value="{{$course->id}}">{{$course->course_title}}</option>
                         @endforeach
                     </select>
-                    <input type="date" name="publish_date" style="width: 308px !important;" class="form-control shadow-none mt-3" placeholder="Publish Date">
+                    <input type="date" name="publish_date" max="{{$formatted}}" style="width: 308px !important;" class="form-control shadow-none mt-3" placeholder="Publish Date">
                     <select class="form-select shadow-none mt-3" name="category" style="width: 308px !important;" aria-label="Default select example">
                         <option disabled selected>Categories</option>
                         @foreach($categories as $category)
@@ -26,8 +29,8 @@
                         @endforeach
                     </select>
                     <div class="form-floating mt-3">
-                        <textarea class="form-control shadow-none" name="abstract" style="width: 308px !important;" placeholder="Abstract" id="floatingTextarea"></textarea>
-                        <label for="floatingTextarea">Abstract</label>
+                        <input class="form-control shadow-none" name="serial_number" style="width: 308px !important;" id="floatingTextarea" value="{{$serialNumber}}" readonly>
+                        <label for="floatingTextarea">Serial Number</label>
                     </div>
                     <input type="file" name="thesis_file" class="form-control shadow-none mt-3" style="width: 308px !important;">
 

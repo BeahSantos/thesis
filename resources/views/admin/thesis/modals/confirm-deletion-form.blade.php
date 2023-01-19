@@ -9,7 +9,9 @@
                     @csrf
                     @method('DELETE')
                     <div class="col-md-12">
-                        <h5>Reason for deletion</h5>
+                        <div class="row mx-auto">
+                            <h5>Reason for deletion</h5>
+                        </div>
                         <select name="reason" class="form-select shadow-none" id="floatingSelectGrid">
                             <option disabled selected>Select</option>
                             @foreach ($reasons as $item) 
