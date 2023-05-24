@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('theses', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('author');
             $table->bigInteger('course_id');
             $table->date('publish_date');

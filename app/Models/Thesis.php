@@ -28,4 +28,9 @@ class Thesis extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function reason()
+    {
+        return $this->belongsTo(Reason::class);
+    }
 }

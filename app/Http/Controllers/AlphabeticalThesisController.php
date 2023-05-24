@@ -49,7 +49,8 @@ class AlphabeticalThesisController extends Controller
         }
 
         if ($request->from_date && $request->to_date) {
-            $data = $data->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            $data = $data
+                ->whereBetween('publish_date', [$request->from_date, $request->to_date]);
         }
 
         return $data;

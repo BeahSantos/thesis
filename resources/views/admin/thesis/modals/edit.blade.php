@@ -30,7 +30,7 @@
                         <input class="form-control shadow-none" id="edit-serial-number" name="serial_number" style="width: 308px !important;" id="floatingTextarea" value="" readonly>
                         <label for="floatingTextarea">Serial Number</label>
                     </div>
-                    <input type="file" name="thesis_file" class="form-control shadow-none mt-3" style="width: 308px !important;">
+                    {{-- <input type="file" name="thesis_file" class="form-control shadow-none mt-3" style="width: 308px !important;"> --}}
 
                     <div class="text-center mt-4 mb-3 me-5">
                         <button type="submit" style="border-radius: 20px; padding-right: 70px; padding-left: 70px;" class="btn btn-success">Submit</button>

@@ -14,6 +14,10 @@
     .text-truncate {
         max-width: 300px !important; 
     }
+
+    .thesis-list {
+        margin-bottom: 300px !important;
+    }
 </style>
 <nav class="navbar navbar-expand-lg navbar-white bg-white sticky-top">
     <div class="container-fluid">
@@ -33,6 +37,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li class="">
+                            <a class="dropdown-item logout" href="{{route('admin.thesis_archives.recycle_bin.index')}}">
+                                <i class="fa fa-trash me-2" aria-hidden="true"></i>
+                                <h6 class="d-inline-block lg" style="font-family: Montserrat, sans serif;">Recycle Bin</h6>
+                            </a>
                             <a class="dropdown-item logout" href="{{route('admin.thesis_archives.logout')}}">
                                 <i class="fa fa-sign-out me-2" aria-hidden="true"></i>
                                 <h6 class="d-inline-block lg" style="font-family: Montserrat, sans serif;">Logout</h6>
@@ -76,8 +84,8 @@
     </div>
 </div>
 
-<div class="container mt-5 mb-5">
-    <div class="card">
+<div class="container mt-5 mb-5 thesis-list">
+    <div class="card mt-3">
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-6 col-md-12 col-sm-12 mt-1">
@@ -98,7 +106,7 @@
                             <th>Thesis</th>
                             <th>Author/s</th>
                             <th>Course</th>
-                            <th>Publish Date</th>
+                            <th>Published Date</th>
                             <th>Category</th>
                             <th>Serial Number</th>
                             <th>Views</th>
@@ -157,6 +165,7 @@
     }, 'To Date should be greater than From Date');
 
     $(document).ready(function() {
+
         $('#filter-form').validate({
             rules: {
                 from_date: {
@@ -241,6 +250,16 @@
         });
     });
 
+    $('#create-thesis-form').on('hidden.bs.modal', function(e) {
+        $(this)
+            .find("input[id=thesis_title_create],input[id=authors_create],input[id=publish_date_create],input[id=thesis_file_create]")
+                .val('')
+                .end()
+            .find("select")
+                .val(0)
+                .end();
+    });
+    
     $(function() {
         setTimeout(function() {
             $('#flash-message').hide();
@@ -275,5 +294,7 @@
         $('#edit-serial-number').val(data.serial_number);
         $('#edit-thesis-form-validation').attr('action', route);
     }
+
+    
 </script>
 @endsection

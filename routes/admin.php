@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\RecycleBinController;
 use App\Http\Controllers\Admin\ThesisController;
 
 //Authentication
@@ -14,4 +15,7 @@ Route::middleware('adminAuth')->group(function () {
     Route::put('/update/{thesis}', [ThesisController::class, 'update'])->name('update');
     Route::delete('/delete/{thesis}', [ThesisController::class, 'destroy'])->name('destroy');
     Route::get('/search', [ThesisController::class, 'searchCourse'])->name('search_course');
+    Route::get('/recycle-bin', [RecycleBinController::class, 'index'])->name('recycle_bin.index');
+    Route::post('/recycle-bin/{thesis}/restore', [RecycleBinController::class, 'restore'])->name('recycle_bin.restore');
+    Route::post('/recycle-bin/{thesis}/delete', [RecycleBinController::class, 'delete'])->name('recycle_bin.delete');
 });

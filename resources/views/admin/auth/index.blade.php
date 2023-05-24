@@ -20,6 +20,11 @@
         <div class="card" style="width: 22rem;">
             <img src="/web-logo-earist.png" class="card-img-top" alt="...">
             <div class="card-body">
+                <div class="row mb-1">
+                    <div class="col-md-12">
+                        <h1 class="text-center">Hello Admin!</h1>
+                    </div>
+                </div>
                 <form action="{{route('admin.thesis_archives.authenticate')}}" method="POST">
                     @csrf
                     <input type="hidden" class="form-control shadow-none mb-2" name="email" placeholder="Email" value="janedoe@test.com">

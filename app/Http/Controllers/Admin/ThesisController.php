@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Reason;
 use App\Models\Thesis;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -52,6 +53,12 @@ class ThesisController extends Controller
             'category' => 'required',
             'thesis_file' => 'required'
         ]);
+        
+        $data = $this->thesis;
+
+        if ($data->firstWhere('title', $validated['thesis_title'])) {
+            return redirect()->route('admin.thesis_archives.index')->with('error', 'Existing thesis title, please check the record to avoid duplicating file.');
+        }
 
         $file = $validated['thesis_file'];
 
@@ -59,7 +66,6 @@ class ThesisController extends Controller
 
         $request->thesis_file->move('assets', $filename);
 
-        $data = $this->thesis;
         $data->title = $validated['thesis_title'];
         $data->author = $validated['authors'];
         $data->course_id = $validated['course'];
@@ -94,15 +100,24 @@ class ThesisController extends Controller
             $request->thesis_file->move('assets', $filename);
         }
 
-        $data = $thesis;
-        $data->title = $validated['thesis_title'];
-        $data->author = $validated['authors'];
-        $data->course_id = $validated['course'] ?? $data->course_id;
-        $data->publish_date = $validated['publish_date'];
-        $data->serial_number = $validated['serial_number'];
-        $data->category_id = isset($validated['category']) ? $validated['category'] : $data->category_id;
-        $data->thesis_file = isset($validated['thesis_file']) ? $filename : $data->thesis_file;
-        $data->save();
+        DB::beginTransaction();
+		try {
+            $data = $thesis;
+            $data->title = $validated['thesis_title'];
+            $data->author = $validated['authors'];
+            $data->course_id = $validated['course'] ?? $data->course_id;
+            $data->publish_date = $validated['publish_date'];
+            $data->serial_number = $validated['serial_number'];
+            $data->category_id = isset($validated['category']) ? $validated['category'] : $data->category_id;
+            $data->thesis_file = isset($validated['thesis_file']) ? $filename : $data->thesis_file;
+            $data->save();
+
+			DB::commit();
+		} catch (\Throwable $th) {
+			DB::rollback();
+
+            return redirect()->route('admin.thesis_archives.index')->with('error', 'Existing thesis title, please check the record to avoid duplicating file.');
+		}
 
         return redirect()->route('admin.thesis_archives.index')->with('success', 'Successfully Updated!');
     }

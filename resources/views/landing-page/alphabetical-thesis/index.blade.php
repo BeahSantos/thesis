@@ -68,6 +68,18 @@
     label {
         font-size: 16px;
     }
+
+    /*Tab pane bg color*/
+    
+    /* #nav-welcome-page {
+        background-color: !important;
+    } */
+
+    /*Filter bg color*/
+
+    /* #filter-div {
+        background-color: !important;
+    } */
 </style>
 
 <div class="container my-5" style="margin-bottom: 100px !important;">
@@ -103,7 +115,7 @@
         <div class="tab-pane fade show active p-3 bg-light" id="nav-welcome-page" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="container mt-5 mb-3 rounded">
                 <div class="d-flex justify-content-center align-middle">
-                    <div class="col-md-12 mt-2 rounded bg-white py-3 px-3">
+                    <div class="col-md-12 mt-2 rounded py-3 px-3" id="filter-div">
                         <form action="{{route('alphabetical_thesis.index')}}" method="GET" id="filter-form">
                             @csrf
                             <div class="row">
@@ -151,7 +163,7 @@
                 <div class="row">
                     @foreach($data as $item)
                     <div class="col-xs-12 col-sm-12 col-md-4 mb-4 mt-5">
-                        <div class="card text-black shadow-sm" style="width: 16rem; height: 16rem;">
+                        <div class="card text-black shadow-sm" style="width: 16rem; height: 19rem;">
                             <div class="row m-2 text-end">
                                 <div class="col-md-12">
                                     {{"Serial Number: " . $item->serial_number}}
@@ -161,10 +173,14 @@
                                 <h6 class="card-title fw-bold lh-1" style="font-size: 18px;">
                                     {{$item->title}}
                                 </h6>
+                                <div class="row text-start">
+                                    <p style="font-weight: 500; margin-top: 5px; margin-bottom: 0px;">{{$item->author}}</p>
+                                    <p style="font-weight: 500; margin-bottom: 0px; margin-top: 0px;">{{$item->publish_date}}</p>
+                                </div>
                             </div>
                             <div class="card-footer bg-white border-0" style="height: 4rem;">
                                 <div class="d-flex justify-content-end mb-5">
-                                    {{-- <button class="btn btn-light me-auto"><a href="{{route('download', ['file' => $item->id])}}" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button> --}}
+                                    <button class="btn btn-light me-auto"><a href="" data-bs-toggle="modal" data-bs-target="#download-reminder-form" class="text-dark"><i class="fa fa-download" aria-hidden="true"></i></a></button>
                                     <button class="btn btn-light"><a href="{{route('show_thesis', ['thesis' => $item->id])}}" class="text-dark">{{isset($item->views) ? $item->views : 0}} <i class="fa fa-eye" aria-hidden="true"></i></a></button>
                                 </div>
                             </div>
@@ -179,6 +195,7 @@
         </div>
     </div>
 </div>
+@include('common.modals.download')
 @endsection
 @section('customized-script')
 <script>
